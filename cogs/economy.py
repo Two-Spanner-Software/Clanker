@@ -630,7 +630,9 @@ class Economy(commands.Cog):
     
     @app_commands.command(name="top", description="see the richest people in the server")
     async def top(self, interaction: Interaction):
-        self.cursor.execute("SELECT * FROM users")
+        self.cursor.execute("""
+            SELECT * FROM users WHERE guild_id=?
+        """, (interaction.guild.id,))
         rows = self.cursor.fetchall()
 
         if not rows:
@@ -662,9 +664,10 @@ class Economy(commands.Cog):
 
             for i, (user_id, total) in enumerate(chunk, start=start + 1):
                 member = interaction.guild.get_member(int(user_id))
-                name = member.name if member else f"User {user_id}"
+                if not member:
+                    continue
 
-                description += f"**#{i}** — {name}: **{total}** coins\n"
+                description += f"**#{i}** — {member.name}: **{total}** coins\n"
 
             embed = discord.Embed(
                 title="🏆 Leaderboard",
@@ -679,7 +682,7 @@ class Economy(commands.Cog):
 
         view = discord.ui.View(timeout=60)
 
-        async def update(msg_interaction):
+        async def update(msg_interaction: Interaction):
             await msg_interaction.response.edit_message(embed=make_embed(), view=view)
 
         prev_btn = discord.ui.Button(label="⬅️", style=discord.ButtonStyle.gray)
@@ -687,6 +690,7 @@ class Economy(commands.Cog):
 
         async def prev_callback(btn_interaction: Interaction):
             nonlocal page
+
             if btn_interaction.user != interaction.user:
                 return await btn_interaction.response.send_message(
                     embed=discord.Embed(
@@ -704,6 +708,7 @@ class Economy(commands.Cog):
 
         async def next_callback(btn_interaction: Interaction):
             nonlocal page
+
             if btn_interaction.user != interaction.user:
                 return await btn_interaction.response.send_message(
                     embed=discord.Embed(

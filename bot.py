@@ -21,7 +21,7 @@ TOKEN = data.get("token")
 if not TOKEN:
     raise ValueError("Token not found in data.json!")
     
-TESTING = True
+TESTING = False
 TEST_GUILD_ID = 1482405732329459754
 
 cooldowns = {}

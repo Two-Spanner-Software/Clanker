@@ -1,3 +1,5 @@
+# im a tehxt file!
+
 from discord import app_commands, Interaction, User, TextChannel
 from discord.ext import commands
 import discord
