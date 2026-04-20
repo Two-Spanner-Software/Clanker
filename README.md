@@ -22,4 +22,7 @@ We don't really have documentation for our code... because it's quite... ass.
 
 so you will have to figure out what that specific thing does by yourself :)
 
-Although, of course our [discord server](https://discord.gg/YtQdrkxfg7) is open for you to ask any questions. 
+Although, of course our [discord server](https://discord.gg/YtQdrkxfg7) is open for you to ask any questions.
+
+## 🔃 When is this updated?
+This repo gets updated on every new bot updated. There is not any in-development code in here, that code is kept privately.
